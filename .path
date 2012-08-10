@@ -1,0 +1,7 @@
+# this file is used to extend the path
+
+PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

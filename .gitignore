@@ -12,3 +12,12 @@ Thumbs.db
 # Files that might appear on external disks
 .Spotlight-V100
 .Trashes
+
+# Ignore RubyMine IDE files
+.idea
+
+# Ignore Subversion files
+.svn
+
+# Ignore backup files
+*~
