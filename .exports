@@ -10,7 +10,7 @@ export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 # Make some commands not show up in history
-export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
+#export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
 export LDFLAGS="-L/usr/local/Cellar/libffi/3.0.11/lib -L/usr/local/Cellar/pixman/0.26.2/lib"
 export CPPFLAGS="-I/opt/X11/include -I/usr/local/Cellar/libffi/3.0.11/include -I/usr/local/Cellar/pixman/0.26.2/include"
