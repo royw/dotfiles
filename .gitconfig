@@ -73,4 +73,7 @@
 	insteadOf = "gist:"
 
 [credential]
-	helper = osxkeychain
+	helper = cache
+[user]
+	name = royw
+	email = roy@wright.org

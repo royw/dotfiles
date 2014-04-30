@@ -93,4 +93,10 @@ if has("autocmd")
 	filetype on
 	" Treat .json files as .js
 	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+	autocmd BufNewFile,BufRead herringfile setfiletype python syntax=python
 endif
+
+" exVim hooks
+" -----------
+" let g:ex_toolkit_path = '~/.toolkit'
+" source ~\.vimrc_ex

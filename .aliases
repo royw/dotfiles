@@ -128,3 +128,7 @@ alias hax="growlnotify -a 'Activity Monitor' 'System error' -m 'WTF R U DOIN'"
 
 # bundle support
 alias brake="bundle exec rake"
+
+alias nt="nosetests --config=${NOSE_CFG}"
+
+alias sockson="ssh -N -f -C -D 1080 tpcvm143.austin.hp.com -o TCPKeepAlive=yes -o ServerAliveInterval=30"

@@ -12,10 +12,60 @@ export HISTCONTROL=ignoredups
 # Make some commands not show up in history
 #export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
-export LDFLAGS="-L/usr/local/Cellar/libffi/3.0.11/lib -L/usr/local/Cellar/pixman/0.26.2/lib"
-export CPPFLAGS="-I/opt/X11/include -I/usr/local/Cellar/libffi/3.0.11/include -I/usr/local/Cellar/pixman/0.26.2/include"
+#export LDFLAGS="-L/usr/local/Cellar/libffi/3.0.11/lib -L/usr/local/Cellar/pixman/0.26.2/lib"
+#export CPPFLAGS="-I/opt/X11/include -I/usr/local/Cellar/libffi/3.0.11/include -I/usr/local/Cellar/pixman/0.26.2/include"
 
-export CC="/usr/local/bin/gcc-4.2"
-export CFLAGS="-I/opt/X11/include"
+#export CC="/usr/local/bin/gcc-4.2"
+#export CFLAGS="-I/opt/X11/include"
 
 export NODE_PATH=/usr/local/lib/node_modules
+
+#export PYTHONPATH=.:/home/wrighroy/tpqa-otto/trunk/src:/home/wrighroy/tpqa-otto/trunk/lib
+export NOSE_CFG=/home/wrighroy/tpqa-otto/trunk/nose.cfg
+
+export PGHOST=localhost
+export PGPORT=5433
+export PGCLUSTER=9.2/main
+
+export SKETCHLET_HOME=/usr/local/sketchlet
+export GRAPHVIZ_DOT=/usr/bin/dot
+
+export PYTHONDONTWRITEBYTECODE=1
+
+if [ -d ~/perl5 ] ; then
+  echo "Initializing perl environment"
+  export PERL_LOCAL_LIB_ROOT="/home/wrighroy/perl5:$PERL_LOCAL_LIB_ROOT";
+  export PERL_MB_OPT="--install_base /home/wrighroy/perl5";
+  export PERL_MM_OPT="INSTALL_BASE=/home/wrighroy/perl5";
+  export PERL5LIB="/home/wrighroy/perl5/lib/perl5:/home/wrighroy/lib/CPAN/lib:$PERL5LIB";
+  export PATH="/home/wrighroy/perl5/bin:$PATH";
+
+  if [ -f ~/perl5/perlbrew/etc/bashrc ] ; then
+    source ~/perl5/perlbrew/etc/bashrc
+  fi
+fi
+
+if [ -f /home/wrighroy/lib/CPAN/lib ] ; then
+  export PERL5LIB=$PERL5LIB:/home/wrighroy/lib/CPAN/lib
+fi
+
+if [ -d ~/.perlbrew/libs/perl-5.18.1@dist ] ; then
+  export CPAN_ROOT=~/.perlbrew/libs/perl-5.18.1@dist/cpan
+  mkdir -p $CPAN_ROOT
+  export CPAN_MINI_CONFIG=~/.perlbrew/libs/perl-5.18.1@dist/.minicpanrc
+fi
+
+if [ -d /usr/local/CPAN ] ; then
+  export PERL5LIB=$PERL5LIB:/usr/local/CPAN/lib
+fi
+
+export LOCAL_PYPI_HOST=tpcvm143.austin.hp.com
+export LOCAL_PYPI_PATH=/var/pypi/dev
+
+export SVN_USERNAME=roy.wright
+
+# virtualenvwrapper setup
+export WORKON_HOME=$HOME/.venv
+export PROJECT_HOME=$HOME/projects
+source /usr/local/bin/virtualenvwrapper.sh
+

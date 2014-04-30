@@ -90,16 +90,38 @@ ps1_rvm()
   command -v rvm-prompt >/dev/null 2>&1 && printf "%s" " $(rvm-prompt) "
 }
 
+relpath()
+{
+  /usr/bin/python2.7 -c "import os.path; print(os.path.relpath('$1','${2:-$PWD}'))" ;
+}
+
 ps1_python()
 {
-  local pyver="$(python --version 2>&1)"
-  printf "%s" "\[\033[1;33m\]${pyver}${VIRTUAL_ENV}\[\033[0m\] "
-  
+  local pyver="$(python -V 2>&1)"
+  local venv=""
+  if [ ${VIRTUAL_ENV:+x} ] ; then
+	  venv="@~/$(relpath $VIRTUAL_ENV $HOME)"
+  fi
+  printf "%s" "\[\033[33m\][${pyver}${venv}]\[\033[0m\] "
+}
+
+ps1_perl()
+{
+  local perlver='$(perl -Mstrict -wall -e '"'"'use Config; print("$Config{PERL_REVISION}\.$Config{PERL_VERSION}\.$Config{PERL_SUBVERSION}\n")'"'"')'
+  local pbenv=""
+  if [ ${PERLBREW_PERL} ] ; then
+    if [ ${PERLBREW_LIB} ] ; then
+      pbenv="@${PERLBREW_LIB}"
+    else
+      pbenv="@~/$(relpath $PERLBREW_ROOT $HOME)"
+    fi
+  fi
+  printf "%s" "\[\033[32m\][Perl ${perlver}${pbenv}]\[\033[0m\] "
 }
 
 ps1_update()
 {
-  local prompt_char='$' separator="\n" notime=0 nogit=0 norvm=0 nopython=0
+  local prompt_char='$' separator="\n" notime=0 nogit=0 norvm=0 nopython=0 noperl=0
 
   (( $UID == 0 )) && prompt_char='#'
 
@@ -134,6 +156,9 @@ ps1_update()
       --nopython)
         nopython=1
         ;;
+      --noperl)
+        noperl=1
+        ;;
       *)
         true # Ignore everything else.
         ;;
@@ -153,6 +178,9 @@ ps1_update()
   fi
   if (( nopython == 0 )) ; then
     PS1="${PS1}$(ps1_python)"
+  fi
+  if (( noperl == 0 )) ; then
+    PS1="${PS1}$(ps1_perl)"
   fi
   PS1="${PS1}${separator}${prompt_char} "
 }
