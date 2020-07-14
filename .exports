@@ -1,27 +1,59 @@
-# Make vim the default editor
-export EDITOR="vim"
+#!/usr/bin/env bash
+
+export CPPFLAGS=""
+export LDFLAGS=""
+export PKG_CONFIG_PATH=""
+
+export GPG_TTY=$(tty)
+
+# Make vim the default editor.
+export EDITOR='vim';
+
+# Enable persistent REPL history for `node`.
+export NODE_REPL_HISTORY=~/.node_history;
+# Allow 32³ entries; the default is 1000.
+export NODE_REPL_HISTORY_SIZE='32768';
+# Use sloppy mode by default, matching web browsers.
+export NODE_REPL_MODE='sloppy';
+
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+export PYTHONIOENCODING='UTF-8';
+
+#export PYTHONPATH=.:/home/wrighroy/tpqa-otto/trunk/src:/home/wrighroy/tpqa-otto/trunk/lib
+export NOSE_CFG=/home/wrighroy/tpqa-otto/trunk/nose.cfg
+
+export PYTHONDONTWRITEBYTECODE=1
+
+
+
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
 # Highlight section titles in manual pages
 export LESS_TERMCAP_md="$ORANGE"
 
-# Larger bash history (allow 32³ entries; default is 500)
-export HISTSIZE=32768
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768';
+export HISTFILESIZE="${HISTSIZE}";
+# Omit duplicates and commands that begin with a space from history.
+export HISTCONTROL='ignoreboth';
 # Make some commands not show up in history
 #export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
-#export LDFLAGS="-L/usr/local/Cellar/libffi/3.0.11/lib -L/usr/local/Cellar/pixman/0.26.2/lib"
-#export CPPFLAGS="-I/opt/X11/include -I/usr/local/Cellar/libffi/3.0.11/include -I/usr/local/Cellar/pixman/0.26.2/include"
+# Prefer US English and use UTF-8.
+export LANG='en_US.UTF-8';
+export LC_ALL='en_US.UTF-8';
 
-#export CC="/usr/local/bin/gcc-4.2"
-#export CFLAGS="-I/opt/X11/include"
+# Highlight section titles in manual pages.
+export LESS_TERMCAP_md="${yellow}";
+
+# Don’t clear the screen after quitting a manual page.
+export MANPAGER='less -X';
+
+# Avoid issues with `gpg` as installed via Homebrew.
+# https://stackoverflow.com/a/42265848/96656
+export GPG_TTY=$(tty);
 
 export NODE_PATH=/usr/local/lib/node_modules
-
-#export PYTHONPATH=.:/home/wrighroy/tpqa-otto/trunk/src:/home/wrighroy/tpqa-otto/trunk/lib
-export NOSE_CFG=/home/wrighroy/tpqa-otto/trunk/nose.cfg
 
 export PGHOST=localhost
 export PGPORT=5433
@@ -30,7 +62,26 @@ export PGCLUSTER=9.2/main
 export SKETCHLET_HOME=/usr/local/sketchlet
 export GRAPHVIZ_DOT=/usr/bin/dot
 
-export PYTHONDONTWRITEBYTECODE=1
+if [ -d /usr/local/opt/ruby/bin ] ; then
+# By default, binaries installed by gem will be placed into:
+  export PATH="/usr/local/lib/ruby/gems/2.6.0/bin:$PATH"
+# 
+# You may want to add this to your PATH.
+# 
+# ruby is keg-only, which means it was not symlinked into /usr/local,
+# because macOS already provides this software and installing another version in
+# parallel can cause all kinds of trouble.
+# 
+# If you need to have ruby first in your PATH run:
+  export PATH="/usr/local/opt/ruby/bin:$PATH"
+# 
+# For compilers to find ruby you may need to set:
+  export LDFLAGS="${LDFLAGS} -L/usr/local/opt/ruby/lib"
+  export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/ruby/include"
+# 
+# For pkg-config to find ruby you may need to set:
+  export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/ruby/lib/pkgconfig"
+fi
 
 if [ -d ~/perl5 ] ; then
   echo "Initializing perl environment"
@@ -43,20 +94,20 @@ if [ -d ~/perl5 ] ; then
   if [ -f ~/perl5/perlbrew/etc/bashrc ] ; then
     source ~/perl5/perlbrew/etc/bashrc
   fi
-fi
 
-if [ -f /home/wrighroy/lib/CPAN/lib ] ; then
-  export PERL5LIB=$PERL5LIB:/home/wrighroy/lib/CPAN/lib
-fi
+  if [ -f /home/wrighroy/lib/CPAN/lib ] ; then
+    export PERL5LIB=$PERL5LIB:/home/wrighroy/lib/CPAN/lib
+  fi
 
-if [ -d ~/.perlbrew/libs/perl-5.18.1@dist ] ; then
-  export CPAN_ROOT=~/.perlbrew/libs/perl-5.18.1@dist/cpan
-  mkdir -p $CPAN_ROOT
-  export CPAN_MINI_CONFIG=~/.perlbrew/libs/perl-5.18.1@dist/.minicpanrc
-fi
+  if [ -d ~/.perlbrew/libs/perl-5.18.1@dist ] ; then
+    export CPAN_ROOT=~/.perlbrew/libs/perl-5.18.1@dist/cpan
+    mkdir -p $CPAN_ROOT
+    export CPAN_MINI_CONFIG=~/.perlbrew/libs/perl-5.18.1@dist/.minicpanrc
+  fi
 
-if [ -d /usr/local/CPAN ] ; then
-  export PERL5LIB=$PERL5LIB:/usr/local/CPAN/lib
+  if [ -d /usr/local/CPAN ] ; then
+    export PERL5LIB=$PERL5LIB:/usr/local/CPAN/lib
+  fi
 fi
 
 export LOCAL_PYPI_HOST=tpcvm143.austin.hp.com
@@ -65,7 +116,71 @@ export LOCAL_PYPI_PATH=/var/pypi/dev
 export SVN_USERNAME=roy.wright
 
 # virtualenvwrapper setup
-export WORKON_HOME=$HOME/.venv
-export PROJECT_HOME=$HOME/projects
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -f /usr/local/bin/virtualenvwrapper.sh ] ; then
+  export WORKON_HOME=$HOME/.venv
+  export PROJECT_HOME=$HOME/projects
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+# For compilers to find zlib you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/zlib/include"
+
+# For pkg-config to find zlib you may need to set:
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}/usr/local/opt/zlib/lib/pkgconfig"
+
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/openssl/include"
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/openssl/lib"
+
+# For compilers to find libffi you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/libffi/lib"
+
+# For pkg-config to find libffi you may need to set:
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/opt/libffi/lib/pkgconfig"
+
+# If you need to have gettext first in your PATH run:
+export PATH="/usr/local/opt/gettext/bin:$PATH"
+
+# For compilers to find gettext you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/gettext/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/gettext/include"
+
+# If you need to have icu4c first in your PATH run:
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+
+# For compilers to find icu4c you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/icu4c/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/icu4c/include"
+
+# For pkg-config to find icu4c you may need to set:
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/opt/icu4c/lib/pkgconfig"
+
+export ODBCINI=/Library/ODBC/odbc.ini
+export ODBCSYSINI=/Library/ODBC
+
+# If you need to have expat first in your PATH run:
+export PATH="/usr/local/opt/expat/bin:$PATH"
+
+# For compilers to find expat you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/expat/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/expat/include"
+
+# For pkg-config to find expat you may need to set:
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/opt/expat/lib/pkgconfig"
+
+# If you need to have tcl-tk first in your PATH run:
+export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
+
+# For compilers to find tcl-tk you may need to set:
+export LDFLAGS="${LDFLAGS} -L/usr/local/opt/tcl-tk/lib"
+export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/tcl-tk/include"
+
+# For pkg-config to find tcl-tk you may need to set:
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/opt/tcl-tk/lib/pkgconfig"
+
+export OTTO_DB_URL=ottouser:aut0p@55@tpcvm143.tplab.tippingpoint.com/Otto
+export LAB_LINUX_VM=tpcvm143.tplab.tippingpoint.com
+
+export CFLAGS="-I/usr/local/include -L/usr/local/lib"
 

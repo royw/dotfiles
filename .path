@@ -1,5 +1,8 @@
 # this file is used to extend the path
 
+# pythonz
+[[ -s "$HOME/.pythonz/etc/bashrc" ]] && source "$HOME/.pythonz/etc/bashrc"
+
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
@@ -8,4 +11,14 @@ PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+# If you need to have mysql first in your PATH run:
+# export PATH="/usr/local/opt/mysql/bin:$PATH"
+
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+
+# to make homebrew happy
+export PATH="/usr/local/sbin:$PATH"
+
+# add rust
+export PATH="$PATH:$HOME/.cargo/bin"
 

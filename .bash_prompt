@@ -1,8 +1,10 @@
+#!/usr/bin/env bash
+
 # uncomment the following two lines to display monochrome ruby-version@gemset at the beginning of your prompt:
 #[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 #PS1="\$(~/.rvm/bin/rvm-prompt) $PS1"
 
 # uncomment the following two lines to display fancy prompt (user@machine:path (git info) ruby-version@gemset):
 [[ -s "$HOME/dotfiles/ps1_functions" ]] && source "$HOME/dotfiles/ps1_functions"
-ps1_set --nogit --norvm --prompt "➤"
+ps1_set --git --norvm --prompt "➤"
 

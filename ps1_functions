@@ -121,7 +121,7 @@ ps1_perl()
 
 ps1_update()
 {
-  local prompt_char='$' separator="\n" notime=0 nogit=0 norvm=0 nopython=0 noperl=0
+  local prompt_char='$' separator="\n" notime=0 nogit=0 norvm=0 nopython=0 noperl=1
 
   (( $UID == 0 )) && prompt_char='#'
 
